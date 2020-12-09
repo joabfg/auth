@@ -7,11 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "permission")
+@Table(name = "user")
 @Getter
 @Setter
 @ToString
@@ -53,7 +54,12 @@ public class User implements Serializable, UserDetails {
     }
 
     public List<String> getRoles(){
-        return null;
+        List<String> roles = new ArrayList<>();
+        this.permissions.stream()
+                .forEach(p -> {
+                    roles.add(p.getDescription());
+                });
+        return roles;
     }
 
     @Override
