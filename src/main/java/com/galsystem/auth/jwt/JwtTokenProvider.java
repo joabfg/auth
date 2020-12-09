@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
