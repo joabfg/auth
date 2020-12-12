@@ -1,9 +1,7 @@
 package com.galsystem.auth.jwt;
 
 import com.galsystem.auth.entity.Permission;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +36,7 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String userName, List<Permission> roles){
+    public String createToken(String userName, List<String> roles){
         Claims claims = Jwts.claims().setSubject(userName);
         claims.put("roles",roles);
 
@@ -61,5 +59,15 @@ public class JwtTokenProvider {
             return bearerToken.substring(7,bearerToken.length());
         else
             return null;
+    }
+
+    public boolean validateToken(String token){
+        try{
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return !(claims.getBody().getExpiration().before(new Date()));
+
+        }catch (JwtException | IllegalArgumentException e){
+            return false;
+        }
     }
 }
