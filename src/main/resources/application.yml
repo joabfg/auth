@@ -23,4 +23,4 @@ security:
   jwt:
     token:
       secret-key: chave_microservices
-      expire-length: 36000
+      expired-length: 36000

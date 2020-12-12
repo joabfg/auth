@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface PermissionRepository extends JpaRepository<Permission,Long> {
 
 
-    @Query("SELECT p from Permission pp where  p.description =: description")
+    @Query("SELECT p from Permission p where  p.description = :description")
     Permission findByDescription(@Param("description") String description);
 }

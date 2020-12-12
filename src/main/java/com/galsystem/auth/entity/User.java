@@ -12,20 +12,22 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_db")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class User implements Serializable, UserDetails {
+public class User implements UserDetails, Serializable{
+
+    private static final long serialVersionUID = -9020973236707102285L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_name",nullable = false)
+    @Column(name = "user_name", unique = true)
     private String userName;
 
     @Column(name = "password")
@@ -43,10 +45,12 @@ public class User implements Serializable, UserDetails {
     @Column(name = "enabled")
     private Boolean enabled;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_permission", joinColumns = {@JoinColumn(name = "id_user")},
-    inverseJoinColumns =  {@JoinColumn(name = "id_permissions")})
+    @JoinTable(name = "user_permission" ,  joinColumns = { @JoinColumn(name="id_user")},
+            inverseJoinColumns = { @JoinColumn(name="id_permissions")})
     private List<Permission> permissions;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -56,7 +60,7 @@ public class User implements Serializable, UserDetails {
     public List<String> getRoles(){
         List<String> roles = new ArrayList<>();
         this.permissions.stream()
-                .forEach(p -> {
+                .forEach( p -> {
                     roles.add(p.getDescription());
                 });
         return roles;
@@ -64,7 +68,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return userName;
     }
 
     @Override

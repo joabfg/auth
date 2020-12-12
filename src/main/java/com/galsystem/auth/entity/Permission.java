@@ -14,17 +14,20 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Permission implements GrantedAuthority,Serializable {
+public class Permission implements GrantedAuthority, Serializable {
+
+    private static final long serialVersionUID = -4460602054299804896L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "decription",nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
     @Override
     public String getAuthority() {
-        return null;
+        return this.description;
     }
+
 }
