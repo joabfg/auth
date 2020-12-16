@@ -35,7 +35,7 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    @RequestMapping("testeSecurity")
+    @RequestMapping("/testeSecurity")
     public String teste(){
         return "testado";
     }
